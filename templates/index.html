@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South American Capitals Bot</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #0a0a0a;
+            margin: 0;
+            color: #0ff; /* Neon Cyan */
+        }
+        .container {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+            text-align: center;
+            width: 300px;
+            border: 2px solid #0ff;
+        }
+        h2 {
+            color: #ff00ff; /* Neon Pink */
+            text-shadow: 0 0 8px #ff00ff;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            background: #222;
+            color: #0ff;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 0 8px #0ff;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #ff00ff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-shadow: 0 0 5px white;
+            box-shadow: 0 0 10px #ff00ff;
+        }
+        button:hover {
+            background: #ff1493;
+            box-shadow: 0 0 15px #ff00ff;
+        }
+        #response {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            text-shadow: 0 0 5px #0ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Hello, we are Paula Quevedo, Genesis Tuza, Stefano Solís, Britney Quimbita</h2>
+    <h2>Ask About South American Capitals</h2>
+    <input width="375px" type="text" id="country" placeholder="Enter a South American country">
+    <button onclick="consult()">Ask</button>
+    <div id="response"></div>
+</div>
+
+<script>
+    function consult() {
+        let country = document.getElementById("country").value.trim();
+        if (!country) {
+            document.getElementById("response").innerHTML = "Please enter a country.";
+            return;
+        }
+
+        document.getElementById("response").innerHTML = "Searching...";
+
+        fetch('/query', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ country: country })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("response").innerHTML = data.message;
+        })
+        .catch(error => {
+            document.getElementById("response").innerHTML = "Error contacting the API.";
+            console.error("Error:", error);
+        });
+    }
+</script>
+
+</body>
+</html>
